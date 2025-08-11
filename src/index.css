@@ -133,16 +133,17 @@ body {
 
 .scoreboard {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   width: 90%;
-  padding: 0 2.5rem;
+  padding: 0 1rem;
+  gap: 1rem;
 }
 
 .player-score {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
-  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  font-size: clamp(1rem, 2vw, 1.5rem);
   text-transform: uppercase;
 }
 .player-score p {
