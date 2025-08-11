@@ -5,7 +5,6 @@ import { useApp } from "./AppContext";
 
 function PlayGround() {
   const { winner } = useApp();
-  console.log(winner);
   return (
     <div className="playground">
       {winner ? <WinnerScreen /> : <Board />}

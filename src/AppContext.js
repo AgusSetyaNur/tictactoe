@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+} from "react";
 
 // const [boardState, setBoardState] = useState(Array(9).fill(null));
 const AppContext = createContext();
@@ -12,6 +18,11 @@ const winCombination = [
   [0, 4, 8],
   [2, 4, 6],
 ];
+// function getCompMove() {
+//   const compMove = Math.trunc(Math.random() * 8 + 1);
+//   return compMove;
+// }
+
 const initialState = {
   mode: "",
   boardState: Array(9).fill(null),
@@ -93,6 +104,31 @@ function AppProvider({ children }) {
   const [{ mode, player, activePlayer, winner, boardState }, dispatch] =
     useReducer(reducer, initialState);
 
+  const checkWinner = useCallback(
+    function checkWinner(board) {
+      return winCombination.some((combo) =>
+        combo.every((index) => board[index] === player[activePlayer].shape)
+      );
+    },
+    [activePlayer, player]
+  );
+
+  const handleDraw = useCallback(
+    function handleDraw(id) {
+      if (winner) return;
+      if (boardState[id]) return;
+
+      const newBoard = [...boardState];
+      newBoard[id] = player[activePlayer].shape;
+      if (checkWinner(newBoard)) {
+        dispatch({ type: "winner/selected" });
+        return;
+      }
+      dispatch({ type: "place/selected", payload: newBoard });
+    },
+    [activePlayer, boardState, checkWinner, player, winner]
+  );
+
   useEffect(
     function () {
       if (boardState.every((el) => el !== null))
@@ -101,24 +137,31 @@ function AppProvider({ children }) {
     [boardState]
   );
 
-  function handleDraw(id) {
-    if (winner) return;
-    if (boardState[id]) return;
+  const getCompMove = useCallback(
+    function getCompMove() {
+      const emptyCells = boardState
+        .map((val, idx) => (val === null ? idx : null))
+        .filter((val) => val !== null);
 
-    const newBoard = [...boardState];
-    newBoard[id] = player[activePlayer].shape;
-    if (checkWinner(newBoard)) {
-      dispatch({ type: "winner/selected" });
-      return;
+      if (emptyCells.length === 0) return null;
+      const randomIndex = Math.floor(Math.random() * emptyCells.length);
+      return emptyCells[randomIndex];
+    },
+    [boardState]
+  );
+
+  useEffect(() => {
+    if (activePlayer === "player2" && mode === "single") {
+      const compMove = getCompMove();
+      if (compMove === null) return;
+
+      const timer = setTimeout(() => {
+        handleDraw(compMove);
+      }, 1000);
+
+      return () => clearTimeout(timer);
     }
-    dispatch({ type: "place/selected", payload: newBoard });
-  }
-
-  function checkWinner(board) {
-    return winCombination.some((combo) =>
-      combo.every((index) => board[index] === player[activePlayer].shape)
-    );
-  }
+  }, [activePlayer, mode, boardState, handleDraw, getCompMove]);
 
   function handlePlayAgain() {
     dispatch({ type: "playAgain/selected" });

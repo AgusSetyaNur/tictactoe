@@ -1,7 +1,7 @@
 import { useApp } from "./AppContext";
 
 function ScoreBoard() {
-  const { player, handleReset, handlePlayAgain, activePlayer } = useApp();
+  const { player, handleReset, handlePlayAgain, activePlayer, mode } = useApp();
   const { player1, player2 } = player;
   return (
     <>
@@ -19,7 +19,9 @@ function ScoreBoard() {
             activePlayer === "player2" ? "active" : ""
           }`}
         >
-          <h3>Player 2({player2.shape})</h3>
+          <h3>
+            {mode === "single" ? "Computer" : "Player 2"}({player2.shape})
+          </h3>
           <p>{player2.score}</p>
         </div>
       </div>
