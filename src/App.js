@@ -1,23 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import ChooseShape from "./ChooseShape";
+import Header from "./Header";
+import PlayGround from "./PlayGround";
+import PlayMode from "./PlayMode";
+import { useApp } from "./AppContext";
 
 function App() {
+  const { mode, player, activePlayer } = useApp();
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      {player[activePlayer].shape ? (
+        <PlayGround />
+      ) : mode ? (
+        <ChooseShape />
+      ) : (
+        <PlayMode />
+      )}
     </div>
   );
 }

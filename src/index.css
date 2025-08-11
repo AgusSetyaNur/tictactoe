@@ -1,13 +1,219 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.App {
+  margin: 0 auto;
+  height: 100dvh;
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+
+  text-align: center;
+  background: #9b2a3f;
+  background: linear-gradient(
+    0deg,
+    rgba(155, 42, 63, 0.74) 0%,
+    rgba(199, 87, 180, 0.726) 50%,
+    rgba(183, 83, 237, 0.822) 100%
+  );
+}
+.header {
+  padding-top: 1.5rem;
+  color: rgb(255, 238, 0);
+  height: 30%;
+  font-size: clamp(3rem, 3vw, 4rem);
+}
+.play-mode,
+.choose-shape {
+  height: 60%;
+  padding-top: 1.8rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.play-mode h1,
+.choose-shape h1 {
+  color: rgb(0, 0, 0);
+  text-transform: uppercase;
+  font-size: clamp(1.8rem, 2.5vw, 2rem);
+}
+.play--mode-choice {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.play-mode p {
+  text-transform: uppercase;
+  background-color: rgba(230, 30, 130, 0.849);
+  padding: 1rem 3rem;
+  border-radius: 2rem;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all ease-out 0.2s;
+}
+.play-mode p:hover {
+  background-color: rgb(224, 224, 76);
+  color: black;
+}
+
+.shape-choice {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 1rem;
+}
+.shape-choice p {
+  background-color: rgb(230, 30, 130);
+  width: 7.5rem;
+  height: 7.5rem;
+  font-size: 3rem;
+  border-radius: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  transition: all ease-out 0.2s;
+}
+.shape-choice p:hover {
+  background-color: rgb(224, 224, 76);
+  color: black;
+}
+
+.playground {
+  padding-top: 4rem;
+  /* background-color: rgb(99, 194, 99); */
+  height: 200%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+}
+.board {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  max-height: 100%;
+  background-color: rgb(216, 5, 146);
+  gap: 0.1rem;
+}
+.board-item {
+  background-color: #fcfcfc;
+  width: 100px;
+  height: 100px;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+}
+
+.board-item:hover {
+  background-color: rgb(230, 229, 226);
+}
+.shape-x {
+  color: #be0c2d;
+}
+.shape-o {
+  color: rgb(33, 56, 133);
+}
+
+.scoreboard {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  padding: 0 2.5rem;
+}
+
+.player-score {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  text-transform: uppercase;
+}
+.player-score p {
+  font-size: clamp(2rem, 2.5vw, 3rem);
+}
+.button-container {
+  padding-top: 0.5rem;
+  display: flex;
+  gap: 1rem;
+  /* background-color: red; */
+  width: 80%;
+  justify-content: center;
+}
+button {
+  display: inline-block;
+  text-transform: uppercase;
+  width: 60%;
+  max-width: 15rem;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 1rem;
+  color: #fff;
+  background-color: rgb(38, 101, 218);
+  font-weight: 600;
+  transition: all ease-out 0.2s;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+}
+.reset-btn {
+  background-color: rgb(238, 4, 4);
+}
+
+button:hover,
+button:active {
+  transform: scale(1.05);
+}
+
+.winner-text {
+  text-transform: uppercase;
+  font-size: 2rem;
+  color: #fa0101;
+}
+.active {
+  color: rgb(241, 241, 11);
+  transform: scale(1.1);
+  font-weight: bold;
+}
+
+@media (min-width: 768px) {
+  button {
+    padding: 1rem 2rem;
+  }
+  .scoreboard {
+    justify-content: space-evenly;
+  }
+  .playground {
+    padding-top: 4rem;
+    height: 250%;
+    gap: 9rem;
+  }
+  .player-score {
+    margin-top: -5rem;
+  }
+  .board-item {
+    width: 150px;
+    height: 150px;
+  }
+  .button-container {
+    margin-top: -5rem;
+  }
+  .shape-choice p {
+    height: 15rem;
+    width: 15rem;
+  }
 }
